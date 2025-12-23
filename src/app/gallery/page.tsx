@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { X } from "lucide-react";
 
 // Mock artwork data - will be replaced with Sanity CMS data
+// Images should be placed in public/images/artwork/ with filename matching the slug
 const mockArtworks = [
   {
     id: "1",
@@ -14,6 +15,7 @@ const mockArtworks = [
     artist: "Wesley Charles Holleman",
     price: 2500,
     slug: "abstract-composition-1",
+    image: "/images/artwork/abstract-composition-1.jpg",
     medium: "Acrylic on Canvas",
     dimensions: "24\" × 30\"",
     category: "abstract",

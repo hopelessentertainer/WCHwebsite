@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { formatPrice } from "@/lib/utils";
+import { getArtworkImage } from "@/lib/image-paths";
 
 interface ArtworkCardProps {
   artwork: {
@@ -10,7 +12,7 @@ interface ArtworkCardProps {
     title: string;
     artist: string;
     price: number;
-    image: string;
+    image?: string;
     slug: string;
     medium?: string;
     dimensions?: string;
@@ -19,6 +21,8 @@ interface ArtworkCardProps {
 }
 
 export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
+  const imagePath = artwork.image || getArtworkImage(artwork.slug);
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,9 +32,24 @@ export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
     >
       <Link href={`/artwork/${artwork.slug}`}>
         <div className="group cursor-pointer">
-          <div className="relative aspect-[3/4] bg-luxury-neutral-200 rounded-sm overflow-hidden mb-4">
-            <div className="w-full h-full bg-gradient-to-br from-luxury-neutral-300 to-luxury-neutral-400 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-              <span className="text-luxury-neutral-600 font-serif text-lg">
+          <div className="relative aspect-[3/4] bg-luxury-white border-2 border-luxury-black overflow-hidden mb-4">
+            <Image
+              src={imagePath}
+              alt={artwork.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                // Fallback to placeholder if image doesn't exist
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const placeholder = target.nextElementSibling as HTMLElement;
+                if (placeholder) placeholder.style.display = 'flex';
+              }}
+            />
+            {/* Placeholder shown if image fails to load */}
+            <div className="absolute inset-0 bg-luxury-white flex items-center justify-center group-hover:scale-105 transition-transform duration-500 hidden">
+              <span className="text-luxury-black font-serif text-lg">
                 {artwork.title}
               </span>
             </div>
@@ -40,7 +59,7 @@ export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
             {artwork.title}
           </h3>
           {artwork.medium && (
-            <p className="text-sm text-luxury-neutral-600 font-sans mb-2">
+            <p className="text-sm text-luxury-black font-sans mb-2">
               {artwork.medium}
             </p>
           )}
