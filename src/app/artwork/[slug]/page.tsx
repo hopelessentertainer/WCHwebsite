@@ -5,7 +5,7 @@ import { FadeIn } from "@/components/animations/FadeIn";
 import { Button } from "@/components/ui/Button";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { ZoomIn, ZoomOut, Share2, ShoppingCart } from "lucide-react";
+import { ZoomIn, ZoomOut, Share2, ShoppingCart, X } from "lucide-react";
 
 // Mock artwork data - will be replaced with Sanity CMS data
 const getArtworkBySlug = (slug: string) => {
